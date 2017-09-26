@@ -2,7 +2,7 @@ import math
 
 def sq_mag(a):
     retval = 0
-    for i in len(a):
+    for i in range(len(a)):
         retval = retval + i**2
     return retval
 
