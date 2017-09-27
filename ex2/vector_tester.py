@@ -16,3 +16,9 @@ print("\nv_1 . v_2 = {0}".format(vector.vec_dot(vec_1, vec_2)))
 print("\nv_1 x v_2 = {0}".format(vector.vec_cross(vec_1, vec_2)))
 
 print("\n\n---Testing Identities---\n\n")
+
+print("\nv_1 x v_2 = {0}".format(vector.vec_cross(vec_1, vec_2)))
+print("\n-v_2 x v_1 = {0}".format(vector.vec_diff([0,0,0], vector.vec_cross(vec_2, vec_1))))
+
+
+
