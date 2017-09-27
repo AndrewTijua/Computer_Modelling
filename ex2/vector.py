@@ -25,6 +25,12 @@ def vec_diff(a, b):
         retvec.append(a[i] - b[i])
     return retvec
 
+def vec_mult(a, b):
+    retvec = []
+    for i in range(len(a)):
+        retvec.append(a[i] * b)
+    return retvec
+
 def vec_cross(a, b):
     retvec = [0,0,0]
     retvec[0] = a[1]*b[2] - a[2]*b[1]
