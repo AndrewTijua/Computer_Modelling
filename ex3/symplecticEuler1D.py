@@ -66,3 +66,4 @@ outfile.close()
 # Plot graph of amplitude vs time
 pyplot.plot(tValue,posValue)
 pyplot.show()
+
