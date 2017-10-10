@@ -1,7 +1,10 @@
+"""
+This module implements basic vector operations on 3 element numerical lists in python
+
+Designed for python3
+"""
+
 import math
-"""
-this module implements basic vector operations on 3 element list in python
-"""
 
 def sq_mag(a):
     """
