@@ -61,20 +61,19 @@ class Particle3D:
         self.position = self.position + (self.velocity * timestep) + ((force / (2 * self.mass)) * (timestep ** 2))
 
     @staticmethod
-    def make_from_file(filename):
+    def make_from_file(filehandle):
         """
         This method takes a properly formatted file and creates a Particle3D class with the given parameters
-        :string filename: The filename of the file
+        :filehandle filehandle: The handle of the file we are reading from
         :return particle: A particle from the file
         """
-        file = open(filename)
-        lines = file.readlines()
+        lines = filehandle.readlines()
         label = str(lines[0].rstrip('\n'))
         mass = float(lines[1].rstrip('\n'))
         position = list(lines[2].rstrip('\n').split(','))
         velocity = list(lines[3].rstrip('\n').split(','))
         particle = Particle3D(label=label, mass=mass, position=position, velocity=velocity)
-        file.close()
+        filehandle.close()
         return particle
 
     @staticmethod

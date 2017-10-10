@@ -12,8 +12,8 @@ from Particle1D import Particle1D
 
 # Read name of output file from command line
 if len(sys.argv)!=2:
-    print "Wrong number of arguments."
-    print "Usage: " + sys.argv[0] + " <output file>"
+    print("Wrong number of arguments.")  
+    print("Usage: " + sys.argv[0] + " <output file>")
     quit()
 else:
     outfileName = sys.argv[1]
@@ -28,7 +28,7 @@ vel  = 1.0
 p = Particle1D(pos, vel, mass)
 
 # Set up simulation parameters
-numstep = 100
+numstep = 10000
 time = 0.0
 dt = 0.1
 

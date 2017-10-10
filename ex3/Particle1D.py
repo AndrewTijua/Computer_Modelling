@@ -7,8 +7,8 @@ class Particle1D(object):
     # Initialise a Particle1D instance
     def __init__(self, pos, vel, mass):
         self.position = pos
-	self.velocity = vel
-	self.mass = mass
+        self.velocity = vel
+        self.mass = mass
     
     # Formatted output as String
     def __str__(self):
