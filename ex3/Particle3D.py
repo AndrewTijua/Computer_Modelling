@@ -18,8 +18,8 @@ class Particle3D:
         try:
             self.label = str(label)
             self.mass = float(mass)
-            self.position = array(position)
-            self.velocity = array(velocity)
+            self.position = array(position, dtype=np.float64)
+            self.velocity = array(velocity, dtype=np.float64)
         except:
              raise ValueError('Something went wrong initialising a Particle3D')
     
@@ -64,15 +64,18 @@ class Particle3D:
     def make_from_file(filename):
         """
         This method takes a properly formatted file and creates a Particle3D class with the given parameters
+        :string filename: The filename of the file
+        :return particle: A particle from the file
         """
         file = open(filename)
-        particle = Particle3D()
         lines = file.readlines()
         label = str(lines[0].rstrip('\n'))
         mass = float(lines[1].rstrip('\n'))
-        position = array(list(lines[2].rstrip('\n').split(',')), dtype='float64')
-        velocity = array(list(lines[3].rstrip('\n').split(',')), dtype='float64')
-        particle.__init__(label, mass, position, velocity)
+        position = list(lines[2].rstrip('\n').split(','))
+        velocity = list(lines[3].rstrip('\n').split(','))
+        particle = Particle3D(label=label, mass=mass, position=position, velocity=velocity)
+        file.close()
+        return particle
 
     @staticmethod
     def separation(p1, p2):
@@ -83,3 +86,4 @@ class Particle3D:
         :return numpy array: The vector separation of the particles
         """
         return(p1.position - p2.position)
+
