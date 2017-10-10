@@ -20,15 +20,18 @@ def main():
     #prints out the sum, inner, and cross products respectivly of v_1 and v_2
 
     print("\n\n---Testing Identities---\n\n")
-
+    
+    print("First Identity:")
     print("\nv_1 x v_2 = {0}".format(v.vec_cross(vec_1, vec_2)))
     print("\n-v_2 x v_1 = {0}".format(v.vec_diff([0,0,0], v.vec_cross(vec_2, vec_1))))
     #prints out identities
 
+    print("Second Identity:")
     print("\n\nv_1 x (v_2 + v_3) = {0}".format(v.vec_cross(vec_1, v.vec_sum(vec_2, vec_3))))
     print("\n(v_1 x v_2) + (v_1 x v_3) = {0}".format(v.vec_sum(v.vec_cross(vec_1, vec_2), v.vec_cross(vec_1, vec_3))))
     #prints out identities
 
+    print("Third Identity:")
     print("\n\nv_1 x (v_2 x v_3) = {0}".format(v.vec_cross(vec_1, v.vec_cross(vec_2, vec_3))))
     print("\n(v_1 . v_3)v_2 - (v_1 . v_2)v_3 = {0}".format(v.vec_diff(v.vec_mult(vec_2, v.vec_dot(vec_1, vec_3)), v.vec_mult(vec_3, v.vec_dot(vec_1, vec_2)))))
     #prints out identities

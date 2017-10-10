@@ -23,14 +23,17 @@ def main():
 
     print("\n\n---Testing Identities---\n\n")
 
+    print("First Identity:")
     print("\nv_1 x v_2 = {0}".format(numpy.cross(vec_1, vec_2)))
     print("\n-v_2 x v_1 = {0}".format(-1 * numpy.cross(vec_2, vec_1)))
     #prints out identities
 
+    print("Second Identity:")
     print("\n\nv_1 x (v_2 + v_3) = {0}".format(numpy.cross(vec_1, vec_2 + vec_3)))
     print("\n(v_1 x v_2) + (v_1 x v_3) = {0}".format(numpy.cross(vec_1, vec_2) + numpy.cross(vec_1, vec_3)))
     #prints out identities
 
+    print("Third Identity:")
     print("\n\nv_1 x (v_2 x v_3) = {0}".format(numpy.cross(vec_1, numpy.cross(vec_2, vec_3))))
     print("\n(v_1 . v_3)v_2 - (v_1 . v_2)v_3 = {0}".format((vec_2 * numpy.inner(vec_1, vec_3)) - (vec_3 * numpy.inner(vec_1, vec_2))))
     #prints out identities
