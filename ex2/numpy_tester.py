@@ -3,6 +3,7 @@ from random import random
 from numpy import linalg as linalg
 from numpy import array as array
 #Imports appropriate numpy sublibs to make use easier
+#Import random to allow creating random vectors
 
 
 vec_1 = array([random(), random(), random()])
