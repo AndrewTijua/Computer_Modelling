@@ -35,7 +35,7 @@ class Particle3D:
         This method calculates the kinetic energy of the particle
         :return float: The kinetic energy of the particle
         """
-        return 0.5 * mass * (linalg.norm(velocity) ** 2)
+        return 0.5 * self.mass * (linalg.norm(self.velocity) ** 2)
 
     def step_velocity(self, force, timestep):
         """

@@ -13,7 +13,7 @@ def morse_force(r1, r2, D_e, r_e, alpha):
     sep = Particle3D.separation(r1, r2)
     #Split expression for force into smaller parts for easier digestion
     force_part_one = -2 * alpha * D_e * (1 - math.exp(-1 * alpha * (norm(Particle3D.separation(r1, r2)) * r_e)))
-    force_part_two = math.exp(-1 * alpha * (norm(Particle3D.separation(r1, r2)) - r_2))
+    force_part_two = math.exp(-1 * alpha * (norm(Particle3D.separation(r1, r2)) - r_e))
     return force_part_one * force_part_two * Particle3D.separation(r1, r2)
 
 def morse_energy(r1, r2, D_e, r_e, alpha):
@@ -40,16 +40,16 @@ def total_energy(D_e, r_e, alpha, particle_list):
 def get_input_vars(param_file):
     in_file = str(param_file)
     read_file = open(in_file, 'r')
-    in_file_contents = read_file.read().
+    in_file_contents = read_file.read()
     file_list = in_file_contents.split('\n')
-    non_comments_list = []
+    non_comments = []
     for i in file_list:
         if i.startswith('#') == False and i != '':
-            non_comments_list.append(i)
-    part_params_list = non_comments[0:3]
-    sim_params_list = non_comments[3:6]
+            non_comments.append(i)
+    part_params_list = non_comments[3:6]
+    sim_params_list = non_comments[0:3]
     particles_list = []
-    for i in range((len(nc) - 3) // 4):
+    for i in range((len(non_comments) - 3) // 4):
         start = 6 + 4*(i)
         end = 6 + 4*(i+1)
         temp_l = non_comments[start:end]
@@ -72,16 +72,16 @@ def step_time(particles_list, part_params_list, dt):
     D_e = part_params_list[0]
     r_e = part_params_list[1]
     alpha = part_params_list[2]
-    for i in particle_list:
+    for i in particles_list:
         force = np.array([0,0,0])
-        p.first_order_posint(dt)
-        for j in particle_list:
+        i.first_order_posint(dt)
+        for j in particles_list:
             if i != j:
                 force = force + morse_force(i, j, D_e, r_e, alpha)
         i.step_velocity(force, dt)
         
 def main():
-    in_args = get_input_args("nitro_params1.in")
+    in_args = get_input_vars("nitro_params1.in")
     
     out_file_name = str(sys.argv[1])
     out_file = open(out_file_name, 'w')
@@ -90,12 +90,17 @@ def main():
     sim_params_list = in_args[0]
     part_params_list = in_args[1]
     
-    numstep = sim_params[0]
-    time = sim_params[1]
-    dt = sim_params[2]
+    numstep = int(sim_params_list[0])
+    time = float(sim_params_list[1])
+    dt = float(sim_params_list[2])
 
-    tVals = [time]
+    D_e = part_params_list[0]
+    r_e = part_params_list[1]
+    alpha = part_params_list[2]
+
+    tVals = [float(time)]
     sepVals = [norm(Particle3D.separation(particles_list[0], particles_list[1]))]
+    energVals = [total_energy(D_e, r_e, alpha, particles_list)]
 
     out_file.write("{0:f} {1:f}\n".format(time, norm(Particle3D.separation(particles_list[0], particles_list[1]))))
 
@@ -107,7 +112,10 @@ def main():
         tVals.append(time)
         out_file.write("{0:f} {1:f}\n".format(time, norm(Particle3D.separation(particles_list[0], particles_list[1]))))
         sepVals.append(norm(Particle3D.separation(particles_list[0], particles_list[1])))
-
+        energVals.append(total_energy(D_e, r_e, alpha, particles_list))
     out_file.close()
     plot.plot(tVals, sepVals)
+    plot.plot(tVals, energVals)
     plot.show()
+
+main()
