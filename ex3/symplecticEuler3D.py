@@ -39,5 +39,10 @@ def total_energy(D_e, r_e, alpha, *args):
 def get_input_vars(sysargs):
     in_file = str(sysargs[1])
     read_file = open(in_file, 'r')
-    in_file_contents = read_file.read()
-    
+    in_file_contents = read_file.read().
+    file_list = in_file_contents.split('\n')
+    non_comments_list = []
+    for i in file_list:
+        if i.startswith('#') == False:
+            non_comments_list.append(i)
+    sim_params_list = non_comments[0:3]
