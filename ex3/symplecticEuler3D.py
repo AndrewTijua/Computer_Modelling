@@ -12,9 +12,9 @@ def morse_force(r1, r2, D_e, r_e, alpha):
     D_e, r_e, alpha = float(D_e), float(r_e), float(alpha)
     sep = Particle3D.separation(r1, r2)
     #Split expression for force into smaller parts for easier digestion
-    force_part_one = -2 * alpha * D_e * (1 - math.exp(-1 * alpha * (norm(Particle3D.separation(r1, r2)) * r_e)))
-    force_part_two = math.exp(-1 * alpha * (norm(Particle3D.separation(r1, r2)) - r_e))
-    return force_part_one * force_part_two * Particle3D.separation(r1, r2)
+    force_part_one = -2 * alpha * D_e * (1 - math.exp(-1 * alpha * (norm(sep) - r_e)))
+    force_part_two = math.exp(-1 * alpha * (norm(sep) - r_e))
+    return force_part_one * force_part_two * sep
 
 def morse_energy(r1, r2, D_e, r_e, alpha):
     """
@@ -22,7 +22,7 @@ def morse_energy(r1, r2, D_e, r_e, alpha):
     """
     D_e, r_e, alpha = float(D_e), float(r_e), float(alpha)
     sep = Particle3D.separation(r1, r2)
-    energy = D_e * ((1 - math.exp(-1 * alpha*(norm(Particle3D.separation(r1, r2)) - r_e))) ** 2 - 1)
+    energy = D_e * ((1 - math.exp(-1 * alpha*(norm(sep) - r_e))) ** 2 - 1)
     return energy
 
 def total_energy(D_e, r_e, alpha, particle_list):
@@ -114,8 +114,11 @@ def main():
         sepVals.append(norm(Particle3D.separation(particles_list[0], particles_list[1])))
         energVals.append(total_energy(D_e, r_e, alpha, particles_list))
     out_file.close()
-    plot.plot(tVals, sepVals)
-    plot.plot(tVals, energVals)
+    f, axarr = plot.subplots(2)
+    axarr[0].plot(tVals, sepVals)
+    axarr[0].set_title("System energy")
+    axarr[1].plot(tVals, energVals)
+    axarr[1].set_title("Particle separation")
     plot.show()
 
 main()
