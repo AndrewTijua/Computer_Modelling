@@ -43,6 +43,8 @@ def get_input_vars(sysargs):
     file_list = in_file_contents.split('\n')
     non_comments_list = []
     for i in file_list:
-        if i.startswith('#') == False:
+        if i.startswith('#') == False && i != '':
             non_comments_list.append(i)
     sim_params_list = non_comments[0:3]
+    particles_list = []
+    for i in range(len(
