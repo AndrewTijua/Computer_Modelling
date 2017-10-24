@@ -36,3 +36,8 @@ def total_energy(D_e, r_e, alpha, *args):
             t_energy = t_energy + morse_energy(args[i], args[j], D_e, r_e, alpha)
     return t_energy
 
+def get_input_vars(sysargs):
+    in_file = str(sysargs[1])
+    read_file = open(in_file, 'r')
+    in_file_contents = read_file.read()
+    

@@ -17,7 +17,7 @@ def main():
     print("\nv_1 + v_2 = {0}".format(v.vec_sum(vec_1, vec_2)))
     print("\nv_1 . v_2 = {0}".format(v.vec_dot(vec_1, vec_2)))
     print("\nv_1 x v_2 = {0}".format(v.vec_cross(vec_1, vec_2)))
-    #prints out the sum, inner, and cross products respectivly of v_1 and v_2
+    #prints out the sum, inner, and cross products respectively of v_1 and v_2
 
     print("\n\n---Testing Identities---\n\n")
     
