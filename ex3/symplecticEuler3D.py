@@ -3,6 +3,7 @@ from matplotlib import pyplot as pyplot
 from Particle3D import Particle3D
 import math
 from numpy.linalg import norm
+import numpy as np
 
 def morse_force(r1, r2, D_e, r_e, alpha):
     """
@@ -36,15 +37,32 @@ def total_energy(D_e, r_e, alpha, *args):
             t_energy = t_energy + morse_energy(args[i], args[j], D_e, r_e, alpha)
     return t_energy
 
-def get_input_vars(sysargs):
+def get_input_vars(sysargs, infile):
     in_file = str(sysargs[1])
     read_file = open(in_file, 'r')
     in_file_contents = read_file.read().
     file_list = in_file_contents.split('\n')
     non_comments_list = []
     for i in file_list:
-        if i.startswith('#') == False && i != '':
+        if i.startswith('#') == False and i != '':
             non_comments_list.append(i)
     sim_params_list = non_comments[0:3]
     particles_list = []
-    for i in range(len(
+    for i in range((len(nc) - 3) // 4):
+        start = 3 + 4*(i)
+        end = 3 + 4*(i+1)
+        temp_l = non_comments[start:end]
+        p_lab = str(temp_l[0])
+        p_mass = float(temp_l[1])
+        p_pos = temp_l[2].split(', ')
+        for i in range(len(p_pos)):
+            p_pos[i] = float(p_pos[i])
+        p_pos = np.array(p_pos)
+        p_vel = temp_l[3].split(', ')
+        for i in range(len(p_vel)):
+            p_vel[i] = float(p_vel[i])
+        p_vel = np.array(p_vel)
+        particle = Particle3D(p_lab, p_mass, p_pos, p_vel)
+        particles_list.append(particle)
+    read_file.close()
+    return (sim_params_list, particles_list)
