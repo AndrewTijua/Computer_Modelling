@@ -53,7 +53,7 @@ def get_input_vars(param_file):
     file_list = in_file_contents.split('\n')
     non_comments = []
     for i in file_list:
-        if i.startswith('#') == False and i != '':
+        if i.startswith('#') == False and i != '': #filters out comment lines in file
             non_comments.append(i)
     part_params_list = non_comments[3:6]
     sim_params_list = non_comments[0:3]
@@ -134,14 +134,14 @@ def main():
 
 
     #1 in time is 10.18 fs or 1.018x10^-14s
-    #timescale = 1.018e-14
-    #tVals = [timescale*t for t in tVals]
+    timescale = 1.018e-14
+    tVals = [timescale*t for t in tVals]
 
     f, axarr = plot.subplots(2)
     axarr[0].plot(tVals, sepVals)
-    axarr[0].set_title("System energy")
+    axarr[0].set_title("Particle Separation")
     axarr[1].plot(tVals, energVals)
-    axarr[1].set_title("Particle separation")
+    axarr[1].set_title("System Energy")
     plot.show()
 
 main()
