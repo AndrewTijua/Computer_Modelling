@@ -94,6 +94,10 @@ def step_time(particles_list, part_params_list, dt):
         i.prev_force = new_force
     for i in particles_list:
         i.second_order_posint(i.current_force, dt)
+
+def energy_error_step(current_energy, init_energy):
+    return (current_energy-init_energy)/init_energy
+
 def main():
     in_args = get_input_vars(str(sys.argv[1]))
     
@@ -115,6 +119,8 @@ def main():
     tVals = [float(time)]
     sepVals = [norm(Particle3D.separation(particles_list[0], particles_list[1]))]
     energVals = [total_energy(D_e, r_e, alpha, particles_list)]
+    initEnergy = total_energy(D_e, r_e, alpha, particles_list)
+    relEnergyError = [0]
 
     out_file.write("{0:f} {1:f}\n".format(time, norm(Particle3D.separation(particles_list[0], particles_list[1]))))
 
@@ -134,7 +140,8 @@ def main():
         tVals.append(time)
         out_file.write("{0:f} {1:f}\n".format(time, norm(Particle3D.separation(particles_list[0], particles_list[1]))))
         sepVals.append(norm(Particle3D.separation(particles_list[0], particles_list[1])))
-        energVals.append(total_energy(D_e, r_e, alpha, particles_list))
+        energVals.append(total_energy(D_e, r_e, alpha, particles_list)) 
+        relEnergyError.append(energy_error_step(total_energy(D_e, r_e, alpha, particles_list), initEnergy))
     out_file.close()
 
 
@@ -142,11 +149,13 @@ def main():
     timescale = 1.018e-14
     tVals = [timescale*t for t in tVals]
 
-    f, axarr = plot.subplots(2)
+    f, axarr = plot.subplots(3)
     axarr[0].plot(tVals, sepVals)
     axarr[0].set_title("Particle Separation")
-    axarr[1].plot(tVals, energVals)
-    axarr[1].set_title("System Energy")
+    #axarr[1].plot(tVals, energVals)
+    #axarr[1].set_title("System Energy")
+    axarr[1].plot(tVals, relEnergyError)
+    axarr[1].set_title("Relative Energy Error")
     plot.show()
 
 main()
