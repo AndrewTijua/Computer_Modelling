@@ -21,9 +21,9 @@ def step_time(particles_list, part_params_list, dt):
         force = np.array([0,0,0])
         for j in particles_list:
             if i != j:
-                force = force + morse_force(i, j, D_e, r_e, alpha)
-        i.current_force = force
-        i.step_velocity(force, dt)
+                new_force = force + morse_force(i, j, D_e, r_e, alpha)
+        i.current_force = new_force
+        i.step_velocity(new_force, dt)
     for i in particles_list:
         i.first_order_posint(dt)
 

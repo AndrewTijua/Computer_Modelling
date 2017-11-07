@@ -62,7 +62,7 @@ class Particle3D:
         :numpy array force: The force applied to the particle
         :float timestep: The time interval to step over
         """
-        self.position = self.position + (self.velocity * timestep) + ((force / (2 * self.mass)) * (timestep ** 2))
+        self.position = self.position + (self.velocity * timestep) + ((timestep ** 2) * (force) * (1/(2 * self.mass)))
 
     @staticmethod
     def make_from_file(filehandle):

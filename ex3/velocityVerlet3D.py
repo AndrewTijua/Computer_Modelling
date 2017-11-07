@@ -18,15 +18,16 @@ def step_time(particles_list, part_params_list, dt):
     r_e = part_params_list[1]
     alpha = part_params_list[2]
     for i in particles_list:
+        i.second_order_posint(i.current_force, dt)
+    for i in particles_list:
         new_force = np.array([0,0,0])
         for j in particles_list:
             if i != j:
                 new_force = new_force + morse_force(i, j, D_e, r_e, alpha)
         i.current_force = new_force
         i.step_velocity(0.5*(new_force + i.prev_force), dt)
+        if np.array_equal(new_force, i.prev_force): print('errorskiii')
         i.prev_force = new_force
-    for i in particles_list:
-        i.second_order_posint(i.current_force, dt)
 
 def main():
     in_args = get_input_vars(str(sys.argv[1]))
