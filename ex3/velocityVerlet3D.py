@@ -88,4 +88,4 @@ def main():
     axarr[1].set_title("Relative Energy Error")
     plot.show()
 
-main()
+if __name__ == "__main__": main()

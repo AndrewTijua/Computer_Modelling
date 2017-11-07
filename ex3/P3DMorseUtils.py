@@ -12,6 +12,7 @@ def morse_force(r1, r2, D_e, r_e, alpha):
     Particle3D r1: particle 1
     Particle3d r2: particle 2
     float D_e, r_e, alpha: simulation specific parameters
+    return numpy array: force
     """
     if r1 == r2:
         return np.array([0,0,0])
@@ -24,7 +25,12 @@ def morse_force(r1, r2, D_e, r_e, alpha):
 
 def morse_energy(r1, r2, D_e, r_e, alpha):
     """
-    Expression for energy of two particle due to morse potential
+    Expression for energy potential of two particles due to morse potential
+    Inputs:
+    Particle3D r1: particle 1
+    Particle3d r2: particle 2
+    float D_e, r_e, alpha: simulation specific parameters
+    return float: energy potential
     """
     D_e, r_e, alpha = float(D_e), float(r_e), float(alpha)
     if r1 == r2:
@@ -35,7 +41,10 @@ def morse_energy(r1, r2, D_e, r_e, alpha):
 
 def total_energy(D_e, r_e, alpha, particle_list):
     """
-    Computes the total system of the system
+    Computes the total energy of the system
+    Inputs:
+    float D_e, r_e, alpha: simulation specific parameters
+    return float: energy of system
     """
     t_energy = 0
     for i in particle_list:
@@ -59,11 +68,11 @@ def get_input_vars(param_file):
     for i in file_list:
         if i.startswith('#') == False and i != '': #filters out comment lines in file
             non_comments.append(i)
-    part_params_list = non_comments[3:6]
-    sim_params_list = non_comments[0:3]
+    sim_params_list = non_comments[0:3] #first 3 non comments are sim params (numstep, dt, init_time)
+    part_params_list = non_comments[3:6] #second 3 non comments are particle params (D_e, r_e, alpha)
     particles_list = []
-    for i in range((len(non_comments) - 3) // 4):
-        start = 6 + 4*(i)
+    for i in range((len(non_comments) - 3) // 4): #4 because each particle is specified by four lines
+        start = 6 + 4*(i) 
         end = 6 + 4*(i+1)
         temp_l = non_comments[start:end]
         p_lab = str(temp_l[0])
@@ -82,4 +91,10 @@ def get_input_vars(param_file):
     return (sim_params_list, part_params_list, particles_list)
 
 def energy_error_step(current_energy, init_energy):
+    """
+    Calculates delta E / E for the current step (delta from initial state)
+    Inputs:
+    float current_energy: current energy of system
+    float init_energy: initial energy of system
+    """
     return (current_energy-init_energy)/init_energy
