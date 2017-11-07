@@ -7,7 +7,7 @@ class Particle3D:
     This class is set up to allow easy manipulation of a point particle in three dimensions
     """
 
-    def __init__(self, label, mass, position, velocity):
+    def __init__(self, label, mass, position, velocity, prev_force=[0,0,0]):
         """
         This method creates the particle from input
         :string label: The label wanted for the particle
@@ -20,6 +20,7 @@ class Particle3D:
             self.mass = float(mass)
             self.position = array(position, dtype=np.float64)
             self.velocity = array(velocity, dtype=np.float64)
+            self.prev_force = array(prev_force, dtype=np.float64)
         except:
              raise ValueError('Something went wrong initialising a Particle3D')
     

@@ -114,6 +114,12 @@ def main():
         sepVals.append(norm(Particle3D.separation(particles_list[0], particles_list[1])))
         energVals.append(total_energy(D_e, r_e, alpha, particles_list))
     out_file.close()
+
+
+    #1 in time is 10.18 fs or 1.018x10^-14s
+    #timescale = 1.018e-14
+    #tVals = [timescale*t for t in tVals]
+
     f, axarr = plot.subplots(2)
     axarr[0].plot(tVals, sepVals)
     axarr[0].set_title("System energy")
