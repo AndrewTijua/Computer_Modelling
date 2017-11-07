@@ -39,11 +39,13 @@
 <td colspan=2><tt>This&nbsp;class&nbsp;is&nbsp;set&nbsp;up&nbsp;to&nbsp;allow&nbsp;easy&nbsp;manipulation&nbsp;of&nbsp;a&nbsp;point&nbsp;particle&nbsp;in&nbsp;three&nbsp;dimensions<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="Particle3D-__init__"><strong>__init__</strong></a>(self, label, mass, position, velocity)</dt><dd><tt>This&nbsp;method&nbsp;creates&nbsp;the&nbsp;particle&nbsp;from&nbsp;input<br>
+<dl><dt><a name="Particle3D-__init__"><strong>__init__</strong></a>(self, label, mass, position, velocity, prev_force<font color="#909090">=[0, 0, 0]</font>, current_force<font color="#909090">=[0, 0, 0]</font>)</dt><dd><tt>This&nbsp;method&nbsp;creates&nbsp;the&nbsp;particle&nbsp;from&nbsp;input<br>
 :string&nbsp;label:&nbsp;The&nbsp;label&nbsp;wanted&nbsp;for&nbsp;the&nbsp;particle<br>
 :float&nbsp;mass:&nbsp;The&nbsp;mass&nbsp;wanted&nbsp;for&nbsp;the&nbsp;particle<br>
 :numpy&nbsp;array&nbsp;position:&nbsp;The&nbsp;initial&nbsp;position&nbsp;wanted&nbsp;for&nbsp;the&nbsp;particle<br>
-:numpy&nbsp;array&nbsp;velocity:&nbsp;The&nbsp;initial&nbsp;velocity&nbsp;wanted&nbsp;for&nbsp;the&nbsp;particle</tt></dd></dl>
+:numpy&nbsp;array&nbsp;velocity:&nbsp;The&nbsp;initial&nbsp;velocity&nbsp;wanted&nbsp;for&nbsp;the&nbsp;particle<br>
+:numpy&nbsp;array&nbsp;prev_force:&nbsp;previous&nbsp;force&nbsp;applied&nbsp;to&nbsp;particle&nbsp;(useful&nbsp;for&nbsp;verlet)<br>
+:numpy&nbsp;array&nbsp;current_force:&nbsp;current&nbsp;force&nbsp;(for&nbsp;synchronicity)</tt></dd></dl>
 
 <dl><dt><a name="Particle3D-__str__"><strong>__str__</strong></a>(self)</dt><dd><tt>This&nbsp;method&nbsp;returns&nbsp;the&nbsp;label&nbsp;and&nbsp;3d&nbsp;coordinates&nbsp;of&nbsp;a&nbsp;particle&nbsp;in&nbsp;an&nbsp;easy&nbsp;to&nbsp;parse&nbsp;format<br>
 :return&nbsp;string:&nbsp;Machine&nbsp;readable&nbsp;string&nbsp;containing&nbsp;the&nbsp;particle&nbsp;label&nbsp;and&nbsp;position</tt></dd></dl>
@@ -64,7 +66,9 @@
 
 <hr>
 Static methods defined here:<br>
-<dl><dt><a name="Particle3D-make_from_file"><strong>make_from_file</strong></a>(filename)</dt><dd><tt>This&nbsp;method&nbsp;takes&nbsp;a&nbsp;properly&nbsp;formatted&nbsp;file&nbsp;and&nbsp;creates&nbsp;a&nbsp;<a href="#Particle3D">Particle3D</a>&nbsp;class&nbsp;with&nbsp;the&nbsp;given&nbsp;parameters</tt></dd></dl>
+<dl><dt><a name="Particle3D-make_from_file"><strong>make_from_file</strong></a>(filehandle)</dt><dd><tt>This&nbsp;method&nbsp;takes&nbsp;a&nbsp;properly&nbsp;formatted&nbsp;file&nbsp;and&nbsp;creates&nbsp;a&nbsp;<a href="#Particle3D">Particle3D</a>&nbsp;class&nbsp;with&nbsp;the&nbsp;given&nbsp;parameters<br>
+:filehandle&nbsp;filehandle:&nbsp;The&nbsp;handle&nbsp;of&nbsp;the&nbsp;file&nbsp;we&nbsp;are&nbsp;reading&nbsp;from<br>
+:return&nbsp;particle:&nbsp;A&nbsp;particle&nbsp;from&nbsp;the&nbsp;file</tt></dd></dl>
 
 <dl><dt><a name="Particle3D-separation"><strong>separation</strong></a>(p1, p2)</dt><dd><tt>This&nbsp;method&nbsp;computes&nbsp;the&nbsp;vector&nbsp;separation&nbsp;of&nbsp;two&nbsp;particles&nbsp;represented&nbsp;by&nbsp;<a href="#Particle3D">Particle3D</a>&nbsp;classes<br>
 :p1&nbsp;<a href="#Particle3D">Particle3D</a>:&nbsp;A&nbsp;particle<br>

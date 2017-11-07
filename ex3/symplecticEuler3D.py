@@ -9,6 +9,8 @@ def morse_force(r1, r2, D_e, r_e, alpha):
     """
     Calculates the force due to the morse potential on particle 1 due to particle 2
     """
+    if r1 == r2:
+        return np.array([0,0,0])
     D_e, r_e, alpha = float(D_e), float(r_e), float(alpha)
     sep = Particle3D.separation(r1, r2)
     #Split expression for force into smaller parts for easier digestion
@@ -21,6 +23,8 @@ def morse_energy(r1, r2, D_e, r_e, alpha):
     Expression for energy of two particle due to morse potential
     """
     D_e, r_e, alpha = float(D_e), float(r_e), float(alpha)
+    if r1 == r2:
+        return 0
     sep = Particle3D.separation(r1, r2)
     energy = D_e * ((1 - math.exp(-1 * alpha*(norm(sep) - r_e))) ** 2 - 1)
     return energy
@@ -38,6 +42,11 @@ def total_energy(D_e, r_e, alpha, particle_list):
     return t_energy
 
 def get_input_vars(param_file):
+    """
+    Reads in an arbitrary number of particles and the simulation parameters from a file
+    input: str param_file: file containing appropriately formatted parameters and particles
+    return: 3-tuple containing a list of sim params, particle params and the particles themselves
+    """
     in_file = str(param_file)
     read_file = open(in_file, 'r')
     in_file_contents = read_file.read()
@@ -69,21 +78,29 @@ def get_input_vars(param_file):
     return (sim_params_list, part_params_list, particles_list)
 
 def step_time(particles_list, part_params_list, dt):
+    """
+    We step time using the euler method of time integration
+    Inputs:
+    list particles_list: list of particles (class Particle3D) to step
+    list part_params_list: list of parameters specific to the particles simulated
+    float dt: timestep to step over
+    """
     D_e = part_params_list[0]
     r_e = part_params_list[1]
     alpha = part_params_list[2]
     for i in particles_list:
         force = np.array([0,0,0])
-        i.first_order_posint(dt)
         for j in particles_list:
             if i != j:
                 force = force + morse_force(i, j, D_e, r_e, alpha)
+        i.current_force = force
         i.step_velocity(force, dt)
-        
+    for i in particles_list:
+        i.first_order_posint(dt)
 def main():
-    in_args = get_input_vars("nitro_params1.in")
+    in_args = get_input_vars(str(sys.argv[1]))
     
-    out_file_name = str(sys.argv[1])
+    out_file_name = str(sys.argv[2])
     out_file = open(out_file_name, 'w')
 
     particles_list = in_args[2]
