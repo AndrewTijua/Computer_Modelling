@@ -1,0 +1,5 @@
+from Particle3D import Particle3D as p3d
+
+
+bums = p3d.make_from_file('my_butt.txt')
+print(bums.__str__())
