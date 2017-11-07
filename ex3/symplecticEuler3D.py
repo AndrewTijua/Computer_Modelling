@@ -97,6 +97,7 @@ def step_time(particles_list, part_params_list, dt):
         i.step_velocity(force, dt)
     for i in particles_list:
         i.first_order_posint(dt)
+
 def main():
     in_args = get_input_vars(str(sys.argv[1]))
     
