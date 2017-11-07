@@ -47,7 +47,7 @@ class Particle3D:
         :numpy array force: The force applied to the particle
         :float time: The time interval to step over
         """
-        self.velocity = self.velocity + (force * timestep)
+        self.velocity = self.velocity + (force * timestep)/self.mass
 
     def first_order_posint(self, timestep):
         """

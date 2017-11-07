@@ -149,7 +149,7 @@ def main():
     timescale = 1.018e-14
     tVals = [timescale*t for t in tVals]
 
-    f, axarr = plot.subplots(3)
+    f, axarr = plot.subplots(2)
     axarr[0].plot(tVals, sepVals)
     axarr[0].set_title("Particle Separation")
     #axarr[1].plot(tVals, energVals)
