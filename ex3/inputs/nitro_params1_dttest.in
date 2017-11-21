@@ -1,0 +1,23 @@
+#simulation params
+#numstep
+10000
+#time
+0
+#dt
+0.1
+#D_e
+9.90523
+#r_e
+1.09768
+#alpha
+2.68867
+#Particle 1 params
+p1
+14.01
+0.54884, 0, 0
+0.1, 0, 0
+#Particle 2 params
+p2
+14.01
+-0.54884, 0, 0
+-0.1, 0, 0

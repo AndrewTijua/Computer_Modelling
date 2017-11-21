@@ -1,0 +1,55 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module P3DMorseUtils</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>P3DMorseUtils</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/s1621312/Documents/compmod/Computer_Modelling/ex3/P3DMorseUtils.py">/home/s1621312/Documents/compmod/Computer_Modelling/ex3/P3DMorseUtils.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="numpy.html">numpy</a><br>
+</td><td width="25%" valign=top><a href="matplotlib.pyplot.html">matplotlib.pyplot</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-energy_error_step"><strong>energy_error_step</strong></a>(current_energy, init_energy)</dt><dd><tt>Calculates&nbsp;delta&nbsp;E&nbsp;/&nbsp;E&nbsp;for&nbsp;the&nbsp;current&nbsp;step&nbsp;(delta&nbsp;from&nbsp;initial&nbsp;state)<br>
+Inputs:<br>
+float&nbsp;current_energy:&nbsp;current&nbsp;energy&nbsp;of&nbsp;system<br>
+float&nbsp;init_energy:&nbsp;initial&nbsp;energy&nbsp;of&nbsp;system</tt></dd></dl>
+ <dl><dt><a name="-get_input_vars"><strong>get_input_vars</strong></a>(param_file)</dt><dd><tt>Reads&nbsp;in&nbsp;an&nbsp;arbitrary&nbsp;number&nbsp;of&nbsp;particles&nbsp;and&nbsp;the&nbsp;simulation&nbsp;parameters&nbsp;from&nbsp;a&nbsp;file<br>
+input:&nbsp;str&nbsp;param_file:&nbsp;file&nbsp;containing&nbsp;appropriately&nbsp;formatted&nbsp;parameters&nbsp;and&nbsp;particles<br>
+return:&nbsp;3-tuple&nbsp;containing&nbsp;a&nbsp;list&nbsp;of&nbsp;sim&nbsp;params,&nbsp;particle&nbsp;params&nbsp;and&nbsp;the&nbsp;particles&nbsp;themselves</tt></dd></dl>
+ <dl><dt><a name="-morse_energy"><strong>morse_energy</strong></a>(r1, r2, D_e, r_e, alpha)</dt><dd><tt>Expression&nbsp;for&nbsp;energy&nbsp;potential&nbsp;of&nbsp;two&nbsp;particles&nbsp;due&nbsp;to&nbsp;morse&nbsp;potential<br>
+Inputs:<br>
+Particle3D&nbsp;r1:&nbsp;particle&nbsp;1<br>
+Particle3d&nbsp;r2:&nbsp;particle&nbsp;2<br>
+float&nbsp;D_e,&nbsp;r_e,&nbsp;alpha:&nbsp;simulation&nbsp;specific&nbsp;parameters<br>
+return&nbsp;float:&nbsp;energy&nbsp;potential</tt></dd></dl>
+ <dl><dt><a name="-morse_force"><strong>morse_force</strong></a>(r1, r2, D_e, r_e, alpha)</dt><dd><tt>Calculates&nbsp;the&nbsp;force&nbsp;due&nbsp;to&nbsp;the&nbsp;morse&nbsp;potential&nbsp;on&nbsp;particle&nbsp;1&nbsp;due&nbsp;to&nbsp;particle&nbsp;2<br>
+Inputs:<br>
+Particle3D&nbsp;r1:&nbsp;particle&nbsp;1<br>
+Particle3d&nbsp;r2:&nbsp;particle&nbsp;2<br>
+float&nbsp;D_e,&nbsp;r_e,&nbsp;alpha:&nbsp;simulation&nbsp;specific&nbsp;parameters<br>
+return&nbsp;numpy&nbsp;array:&nbsp;force</tt></dd></dl>
+ <dl><dt><a name="-total_energy"><strong>total_energy</strong></a>(D_e, r_e, alpha, particle_list)</dt><dd><tt>Computes&nbsp;the&nbsp;total&nbsp;energy&nbsp;of&nbsp;the&nbsp;system<br>
+Inputs:<br>
+float&nbsp;D_e,&nbsp;r_e,&nbsp;alpha:&nbsp;simulation&nbsp;specific&nbsp;parameters<br>
+return&nbsp;float:&nbsp;energy&nbsp;of&nbsp;system</tt></dd></dl>
+</td></tr></table>
+</body></html>
