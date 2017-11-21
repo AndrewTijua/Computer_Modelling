@@ -26,7 +26,7 @@ def step_time(particles_list, part_params_list, dt):
                 new_force = new_force + morse_force(i, j, D_e, r_e, alpha)
         i.current_force = new_force
         i.step_velocity(0.5*(new_force + i.prev_force), dt)
-        if np.array_equal(new_force, i.prev_force): print('errorskiii')
+        #if np.array_equal(new_force, i.prev_force): print('errorskiii')
         i.prev_force = new_force
 
 def main():

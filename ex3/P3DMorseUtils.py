@@ -21,7 +21,7 @@ def morse_force(r1, r2, D_e, r_e, alpha):
     #Split expression for force into smaller parts for easier digestion
     force_part_one = -2 * alpha * D_e * (1 - math.exp(-1 * alpha * (norm(sep) - r_e)))
     force_part_two = math.exp(-1 * alpha * (norm(sep) - r_e))
-    return force_part_one * force_part_two * sep
+    return force_part_one * force_part_two * (sep/norm(sep))
 
 def morse_energy(r1, r2, D_e, r_e, alpha):
     """
