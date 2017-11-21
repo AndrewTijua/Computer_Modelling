@@ -80,13 +80,17 @@ def main():
     timescale = 1.018e-14
     tVals = [timescale*t for t in tVals]
 
-    f, axarr = plot.subplots(2)
-    axarr[0].plot(tVals, sepVals)
-    axarr[0].set_title("Particle Separation")
+    #f, axarr = plot.subplots(2)
+    #axarr[0].plot(tVals, sepVals)
+    #axarr[0].set_title("Particle Separation")
     #axarr[1].plot(tVals, energVals)
     #axarr[1].set_title("System Energy")
-    axarr[1].plot(tVals, relEnergyError)
-    axarr[1].set_title("Relative Energy Error")
+    #axarr[1].plot(tVals, relEnergyError)
+    #axarr[1].set_title("Relative Energy Error")
+    plot.plot(tVals, sepVals)
+    plot.title("Particle Separation Against Time")
+    plot.xlabel("Time (s)")
+    plot.ylabel("Separation (m^-10)")
     plot.show()
 
 if __name__ == "__main__": main()

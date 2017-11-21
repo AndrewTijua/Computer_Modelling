@@ -68,7 +68,7 @@ def main():
 
     #1 in time is 10.18 fs or 1.018x10^-14s
     timescale = 1.018e-14
-    tVals = [timescale*t for t in tVals]
+    Vals = [timescale*t for t in tVals]
 
     f, axarr = plot.subplots(2)
     axarr[0].plot(tVals, sepVals)
