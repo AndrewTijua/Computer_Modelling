@@ -6,6 +6,7 @@ from numpy.linalg import norm
 import numpy as np
 from P3DMorseUtils import * #very little in it, all named explicitly
 
+
 def step_time(particles_list, part_params_list, dt):
     """
     We step time using the verlet
@@ -30,6 +31,8 @@ def step_time(particles_list, part_params_list, dt):
         i.prev_force = new_force
 
 def main():
+    if len(sys.argv) != 3:
+        raise ValueError("Incorrect number of parameters!\n usage: {0} <input_file> <output_file>".format(sys.argv[0]))
     in_args = get_input_vars(str(sys.argv[1]))
     
     out_file_name = str(sys.argv[2])
@@ -80,17 +83,17 @@ def main():
     timescale = 1.018e-14
     tVals = [timescale*t for t in tVals]
 
-    #f, axarr = plot.subplots(2)
-    #axarr[0].plot(tVals, sepVals)
-    #axarr[0].set_title("Particle Separation")
+    f, axarr = plot.subplots(2)
+    axarr[0].plot(tVals, sepVals)
+    axarr[0].set_title("Particle Separation")
     #axarr[1].plot(tVals, energVals)
     #axarr[1].set_title("System Energy")
-    #axarr[1].plot(tVals, relEnergyError)
-    #axarr[1].set_title("Relative Energy Error")
-    plot.plot(tVals, sepVals)
-    plot.title("Particle Separation Against Time")
-    plot.xlabel("Time (s)")
-    plot.ylabel("Separation (m^-10)")
+    axarr[1].plot(tVals, relEnergyError)
+    axarr[1].set_title("Relative Energy Error")
+    #plot.plot(tVals, sepVals)
+    #plot.title("Particle Separation Against Time")
+    #plot.xlabel("Time (s)")
+    #plot.ylabel("Separation (m^-10)")
     plot.show()
 
 if __name__ == "__main__": main()

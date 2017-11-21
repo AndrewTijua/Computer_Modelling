@@ -73,7 +73,7 @@ Below is a sample graph of the particle separations within the nitrogen with spi
 It can be seen that the graphs look very similar on small scales such as these. However if you run them over a longer period of time you can see the difference in the envelope very clearly. 
 
 
-\begin{figure}[H]
+	\begin{figure}[H]
 		\centering
 		\begin{subfigure}{0.45\textwidth}
 			\includegraphics[width=\textwidth]{n2nospinlong}
@@ -86,6 +86,66 @@ It can be seen that the graphs look very similar on small scales such as these. 
 	\end{figure}
 	
 You can see that the one without spin is more 'jagged', for lack of a better word.
-	
+The rest of the plots are contained at the end of the document.
 
+Our results were close to the laboratory results but not exactly the same. They were slightly larger, likely due to the time integrator introducing error to the energy in the system. 
+
+The velocity Verlet integrator performs better in both aspects; it performs better at a given timestep and has a larger maximum timestep. The symplectic Euler method would have caused our results to have far more error than they do if they were calculated at the same timestep. 
+
+As it stands our results are within $\approx 1\%$ of the true value, meaning that a good amount of the error probably came from selecting and measuring the period. The integrator is accurate enough for our purposes, and definitely accurate enough to model the (non-relativistic) solar system. 
+
+\pagebreak
+\centering
+	Graphs
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{oxnospinshort}
+			\caption*{$O_2$ particle separations without spin (short run)}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{oxspinshort}
+			\caption*{$O_2$ particle separations with spin (short run)}
+		\end{subfigure}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{oxnospinlong}
+			\caption*{$O_2$ particle separations without spin (long run)}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{oxspinlong}
+			\caption*{$O_2$ particle separations with spin (long run)}
+		\end{subfigure}
+	\end{figure}
+	
+	
+\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{n2nospinsep}
+			\caption*{$N_2$ particle separations without spin (short run)}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{n2spinsep}
+			\caption*{$N_2$ particle separations with spin (short run)}
+		\end{subfigure}
+	\end{figure}
+	
+	
+\begin{figure}[H]
+		\centering
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{n2nospinlong}
+			\caption*{$N_2$ particle separations without spin (long run)}
+		\end{subfigure}
+		\begin{subfigure}{0.45\textwidth}
+			\includegraphics[width=\textwidth]{n2spinlong}
+			\caption*{$N_2$ particle separations with spin (long run)}
+		\end{subfigure}
+	\end{figure}
 \end{document}
+
+

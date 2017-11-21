@@ -28,8 +28,9 @@ def step_time(particles_list, part_params_list, dt):
         i.first_order_posint(dt)
 
 def main():
+    if len(sys.argv) != 3:
+        raise ValueError("Incorrect number of parameters!\n usage: {0} <input_file> <output_file>".format(sys.argv[0]))
     in_args = get_input_vars(str(sys.argv[1]))
-    
     out_file_name = str(sys.argv[2])
     out_file = open(out_file_name, 'w')
 
