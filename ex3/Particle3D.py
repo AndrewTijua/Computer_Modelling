@@ -86,7 +86,7 @@ class Particle3D:
         This method computes the vector separation of two particles represented by Particle3D classes
         :p1 Particle3D: A particle
         :p2 Particle3D: A particle
-        :return numpy array: The vector separation of the particles
+        :return numpy array: The vector separation of the particles (p1 - p2)
         """
         return(p1.position - p2.position)
 
