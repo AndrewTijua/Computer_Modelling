@@ -79,9 +79,9 @@
 	
 	This program will simulate the Newtonian Solar System using the Velocity Verlet algorithm applied to classical mechanics. 
 	
-	This document contains descriptions of the modules and classes that are to be implemented in this program and gives descriptions of the algorithms and how they interact with each-other. 
+	This document contains descriptions of the modules and classes that are to be implemented in this program and gives descriptions of the algorithms and how they interact with each other. 
 	
-	All written/submitted code is in Python (Version 3.5+ with numpy.) Error checking is to be carried out using Perl for inputs and comparisons. 
+	All written/submitted code is in Python (Version 3.5+ with numpy). Error checking is to be carried out using Perl for inputs and comparisons. 
 	
 	Unless explicitly mentioned all units are standard SI units (kilograms, metres, joules etc.)
 	
@@ -89,9 +89,9 @@
 	\subsection{Internal Dependencies}
 	\begin{tabular}{|c|c|c|}
 		\hline \rowcolor{NavyBlue} Dependencies & Name & Dependants \\ 
-		\hline \texttt{Python 3.5+, numpy} & \texttt{Particle3D.py }& \texttt{SolSim.py, GravUtils.py }\\ 
-		\hline \texttt{Particle3D.py} & \texttt{GravUtils.py} &\texttt{ SolSim.py} \\ 
-		\hline \texttt{GravUtils.py, Particle3D.py} & \texttt{SolSim.py} & \texttt{-} \\ 
+		\hline \texttt{Python 3.5+, numpy} & \texttt{Particle3D.py }& \texttt{SolarSimulator.py, GravUtils.py }\\ 
+		\hline \texttt{Particle3D.py} & \texttt{GravUtils.py} &\texttt{SolarSimulator.py} \\ 
+		\hline \texttt{GravUtils.py, Particle3D.py} & \texttt{SolarSimulator.py} & \texttt{-} \\ 
 		\hline 
 	\end{tabular} 
 	\pagebreak
@@ -120,7 +120,7 @@
 	\begin{tabular}{|c|c|}
 		\rowcolor{NavyBlue}
 		\hline Arguments & Notes \\ 
-		\hline \pbox{0.55\textwidth}{\texttt{string label, float mass,  array position, array velocity}} & Creates a particle with these properties as above. \\ 
+		\hline \pbox{0.4\textwidth}{\texttt{string label, float mass,  array position, array velocity}} & Creates a particle with these properties as above. \\ 
 		\hline 
 		\end{tabular} 
 	
@@ -151,6 +151,9 @@
 	This is achieved using $$\textbf{v}_{t+\delta t} = \textbf{v}_t + \textbf{F}_t\cdot\frac{\delta t}{m},$$
 	
 	with $\textbf{v}_t$ representing the velocity at time $t$, $\textbf{F}_t$ representing the force applied, $\delta t$ representing the timestep and $m$ representing the particle mass. 
+	
+	Return: \texttt{void}
+	
 	\subsubsection{\texttt{first\_order\_posint}}
 	
 	Arguments: \texttt{(self, float timestep)}
@@ -172,7 +175,9 @@
 	$$\textbf{p}_{t+\delta t} = \textbf{p}_t + \textbf{v}_t\cdot\delta t + \delta t^2 \cdot \frac{\textbf{F}_t}{2m},$$
 	
 	where $\textbf{p}_t$ is position at time $t$, $\textbf{v}_t$ is velocity at time $t$, $\textbf{F}_t$ is force at time $t$, $m$ is the particle mass, and $\delta t$ is the timestep. 
-\pagebreak
+	
+	Return: \texttt{void}
+	
 	\subsection{Static Methods}
 	
 	\subsubsection{\texttt{make\_from\_file}}
@@ -228,7 +233,7 @@
 	
 	Arguments: (\texttt{Particle3D p1, Particle3D p2, float G})
 	
-	This method returns the potential due to gravity between two instances of \texttt{Particle3D}. This is done as follows. Let $m_1$ be the mass of \texttt{p1} and $m_2$ be the mass of \texttt{p2}. Let the separation between them be the vector $\textbf{r}$, and the magnitude of $\textbf{r}$ be $r$. Then the force between them is as follows:
+	This method returns the potential due to gravity between two instances of \texttt{Particle3D}. This is done as follows. Let $m_1$ be the mass of \texttt{p1} and $m_2$ be the mass of \texttt{p2}. Let the separation between them be the vector $\textbf{r}$, and the magnitude of $\textbf{r}$ be $r$. Then the energy potential is as follows:
 	
 	$$E = -\frac{Gm_1m_2}{r},$$
 	
@@ -281,7 +286,7 @@
 	This method reads an arbitrary number of particles in from a file. 
 	
 	The file should be formatted as follows:
-	\pagebreak
+	
 	\begin{verbatim}
 		#lines that begin with # are comments
 		#particle 1 params
@@ -336,6 +341,8 @@
 	
 	We will use \texttt{scipy.optimize} for the fitting and optimization (way better than I could write.)
 	
+	Return: \texttt{void}
+	
 	
 	\subsubsection{\texttt{conic\_to\_min}}
 	Arguments: (\texttt{theta, f})
@@ -343,7 +350,7 @@
 	This method takes in these arguments and gives the point on the ellipse corresponding to the equation: 
 	
 	
-	$$r(\theta;a, e) = \frac{a(1-e^2}{1-e\cos\theta},$$
+	$$r(\theta;a, e) = \frac{a(1-e^2)}{1-e\cdot\cos\theta},$$
 	
 	Where $\theta$ is the angle, $a$ is the semi-major axis, and $e$ is the eccentricity.
 	
@@ -378,4 +385,11 @@
 	Then it sets up the lists and begins the time integration. At each step of the integration the position and number of each particle is written to the output in xyz format. 
 	
 	Every 20 steps it will updates the approximation for the ellipse and thus the apoapsis, periapsis, and period (with considerations for the moon). 
+	
+	However if this is unable to be implemented for whatever reason we will use a climbing algorithm to determine the periapsis, apoapsis, and period. 
+	
+	After all the simulation is done it will close the output and input files, perform cleanup, and close.
+	
+	Maybe we will implement a progress bar. 
+	
 \end{document}
