@@ -1,0 +1,167 @@
+diff --git a/project/DesignDoc.tex b/project/DesignDoc.tex
+index 4a5d06e..9a0a138 100644
+--- a/project/DesignDoc.tex
++++ b/project/DesignDoc.tex
+@@ -132,12 +132,16 @@
+ 	
+ 	Returns a string containing the particles label and its current position in space in the format \texttt{label pos\_x pos\_y pos\_z}.
+ 	
++	Return: string \texttt{pos\_str}
++	
+ 	\subsubsection{\texttt{kinetic\_energy}}
+ 	
+ 	Arguments: \texttt{(self)}
+ 	
+ 	Calculates and returns the classical kinetic energy of the particle using $$E_k = \dfrac{1}{2}mv^2,$$ where $E_k$ is kinetic energy of the particle, $m$ is the particle mass and $v$ is the particle velocity.
+ 	
++	Return: float \texttt{E\_k}
++	
+ 	\subsubsection{\texttt{step\_velocity}}
+ 	
+ 	Arguments: \texttt{(self, 3x1 numpy array vector force, float timestep)}
+@@ -157,6 +161,8 @@
+ 	
+ 	where $\textbf{p}_t$ represents position at time $t$, $\textbf{v}_t$ represents velocity at time t, and $\delta t$ represents the timestep. 
+ 	
++	Return: \texttt{void}	
++	
+ 	\subsubsection{\texttt{second\_order\_posint}}
+ 	
+ 	Arguments: \texttt{(self, 3x1 numpy array force, float timestep)}
+@@ -184,6 +190,8 @@
+ 	
+ 	Notice how the commas are not spaced from the data.
+ 	
++	Return: Particle3D \texttt{Particle}
++	
+ 	\subsubsection{\texttt{separation}}
+ 	
+ 	Arguments: \texttt{Particle3D p1, Particle3D p2}
+@@ -194,6 +202,8 @@
+ 	
+ 	It is important that the order that the positions are in is known as subtraction is not commutative. 
+ 	
++	Return: array \texttt{vec\_sep}	
++	
+ 	\pagebreak
+ 	
+ 	\section{\texttt{P3DGravUtils.py} (Module)}
+@@ -212,6 +222,8 @@
+ 	
+ 	where $\textbf{F}$ is the force due to gravity, G is the Gravitational Constant, and the other variables are defined as above. 
+ 	
++	Return: array \texttt{grav\_force}
++	
+ 	\subsubsection{\texttt{grav\_pot}}
+ 	
+ 	Arguments: (\texttt{Particle3D p1, Particle3D p2, float G})
+@@ -221,6 +233,8 @@
+ 	$$E = -\frac{Gm_1m_2}{r},$$
+ 	
+ 	where $\textbf{E}$ is the potential due to gravity, G is the Gravitational Constant, and the other variables are defined as above. 
++
++	Return: array \texttt{grav\_pot}
+ 	
+ 	\subsubsection{\texttt{drift\_correct}}
+ 	
+@@ -234,6 +248,8 @@
+ 	
+ 	We adjust the velocity of each particle in the list by the negative of this to avoid drift. 
+ 	
++	Return: \texttt{void}
++	
+ 	\subsubsection{\texttt{total\_energy}}
+ 	
+ 	Arguments: (\texttt{list particle\_list}, G)
+@@ -256,6 +272,8 @@
+ 		return t_energy
+ 	\end{verbatim}
+ 	
++	Return: float \texttt{t\_energy}
++	
+ 	\subsubsection{\texttt{get\_particles}}
+ 	
+ 	Arguments: (\texttt{particle\_file})
+@@ -283,7 +301,81 @@
+ 	
+ 	The algorithm that fetches these is complex and is heavily commented in the code. 
+ 	
++	Return: list \texttt{particle\_list}
++	
+ 	\subsubsection{\texttt{get\_params}}
+ 	
+ 	Arguments: (\texttt{params\_file})
++	
++	This method parses an input file that contains the simulation parameters ($G, dt, \text{numsteps}, \text{init\_time}$).
++	
++	
++	Return: list \texttt{param\_list}
++	
++	\subsubsection{\texttt{step\_time}}
++	
++	Arguments: (\texttt{particle\_list, dt, time, output\_file})
++	
++	This method steps the simulation forwards in time using the Velocity Verlet time integration algorithm. 
++	
++	First it calculates the new forces on each particle due to every other particle. It then calculates the next position of each particle in accordance with the algorithm. It then steps the particles to that position. 
++	
++	Finally it writes a block to the output file using the \texttt{\_\_str\_\_} method in \texttt{Particle3D.py}.
++	
++	It does not step the time forwards, that is done in the main program.
++	
++	Return: \texttt{void}
++	
++	\subsubsection{\texttt{conic\_fitter}}
++	
++	Arguments: (\texttt{particle\_list, moon\_index, prev\_pos})
++	
++	This method fits a plane to a sample of  five points on each bodies orbit. It then projects these points onto the plane and fits an ellipse to them. 
++	
++	From this ellipse the orbital parameters are calculated (periapsis, apoapsis, period.)
++	
++	We will use \texttt{scipy.optimize} for the fitting and optimization (way better than I could write.)
++	
++	
++	\subsubsection{\texttt{conic\_to\_min}}
++	Arguments: (\texttt{theta, f})
++	
++	This method takes in these arguments and gives the point on the ellipse corresponding to the equation: 
++	
++	
++	$$r(\theta;a, e) = \frac{a(1-e^2}{1-e\cos\theta},$$
++	
++	Where $\theta$ is the angle, $a$ is the semi-major axis, and $e$ is the eccentricity.
++	
++	\texttt{f} contains $a$ at index 0, and $e$ at index 1.
++	
++	Return: point on ellipse in polar co-ordinates. 
++	
++	\subsubsection{\texttt{residuals}}
++	
++	Arguments: (\texttt{f, p, theta})
++	
++	This method calculates the residuals of the ellipse to aid in fitting. 
++	
++	Return: residual of fitted ellipse compared to true data.
++	
++	\section{\texttt{SolarSimulator.py}}
++	
++	This contains the main body of simulator code. It mostly just brings together methods from the above modules. 
++	
++	\subsection{Methods}
++	
++	\subsubsection{\texttt{main}}
++	
++	Arguments: (\texttt{void})
++	
++	This is the only method in \texttt{SolarSimulator}.
++	
++	It first parses the command line arguments (and tells the user how to do it if they don't know.) 
++	
++	It opens the output files for writing.
++	
++	Then it sets up the lists and begins the time integration. At each step of the integration the position and number of each particle is written to the output in xyz format. 
++	
++	Every 20 steps it will updates the approximation for the ellipse and thus the apoapsis, periapsis, and period (with considerations for the moon). 
+ \end{document}
+\ No newline at end of file

@@ -5,23 +5,23 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{titlesec}
-%\usepackage{isodate}
+\usepackage{isodate}
 \usepackage{fancyhdr}
 \usepackage{ragged2e}
 \usepackage{geometry}
 \geometry{a4paper, left=1in, right=1in}
-%\usepackage{lipsum}
+\usepackage{lipsum}
 \usepackage{enumitem}
 \usepackage{graphicx}
 \usepackage{epstopdf}
-%\usepackage{relsize}
+\usepackage{relsize}
 \usepackage{float}
-%\usepackage{svg}
+\usepackage{svg}
 \usepackage{multicol}
 \usepackage{wrapfig}
 \usepackage{array}
 \usepackage{hyperref}
-%\usepackage{pbox}
+\usepackage{pbox}
 \usepackage{colortbl}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 \setlength\extrarowheight{6pt}
@@ -47,7 +47,7 @@
 {\color{RoyalBlue}\thesubsubsection}{0.6em}{}
 
 
-%\isodate
+\isodate
 \lhead{}
 \chead{}
 \rhead{}
@@ -72,20 +72,28 @@
 \begin{document}
 	{\maketitle}
 	
-	\begingroup
 	\tableofcontents
-	\endgroup
 	
 	\pagebreak
 	\section{Overview}
 	
-	This program will simulate the solar system using the Velocity-Verlet method applied to Newtonian Mechanics. 
+	This program will simulate the Newtonian Solar System using the Velocity Verlet algorithm applied to classical mechanics. 
 	
 	This document contains descriptions of the modules and classes that are to be implemented in this program and gives descriptions of the algorithms and how they interact with each-other. 
 	
-	All written/submitted code is in Python (Version 3.5+ with numpy.)
+	All written/submitted code is in Python (Version 3.5+ with numpy.) Error checking is to be carried out using Perl for inputs and comparisons. 
 	
 	Unless explicitly mentioned all units are standard SI units (kilograms, metres, joules etc.)
+	
+	
+	\subsection{Internal Dependencies}
+	\begin{tabular}{|c|c|c|}
+		\hline \rowcolor{NavyBlue} Dependencies & Name & Dependants \\ 
+		\hline \texttt{Python 3.5+, numpy} & \texttt{Particle3D.py }& \texttt{SolSim.py, GravUtils.py }\\ 
+		\hline \texttt{Particle3D.py} & \texttt{GravUtils.py} &\texttt{ SolSim.py} \\ 
+		\hline \texttt{GravUtils.py, Particle3D.py} & \texttt{SolSim.py} & \texttt{-} \\ 
+		\hline 
+	\end{tabular} 
 	\pagebreak
 	
 	\section{\texttt{Particle3D.py} (Class)}
@@ -112,7 +120,7 @@
 	\begin{tabular}{|c|c|}
 		\rowcolor{NavyBlue}
 		\hline Arguments & Notes \\ 
-		%\hline \pbox{0.55\textwidth}{\texttt{string label, float mass,  array position, array velocity}} & Creates a particle with these properties as above. \\ 
+		\hline \pbox{0.55\textwidth}{\texttt{string label, float mass,  array position, array velocity}} & Creates a particle with these properties as above. \\ 
 		\hline 
 		\end{tabular} 
 	
@@ -130,7 +138,7 @@
 	
 	Arguments: \texttt{(self)}
 	
-	Calculates and returns the classical kinetic energy of the particle using $$E_k = \dfrac{1}{2}mv^2,$$ where $E_k$ is kinetic energy, $m$ is mass and $v$ is velocity.
+	Calculates and returns the classical kinetic energy of the particle using $$E_k = \dfrac{1}{2}mv^2,$$ where $E_k$ is kinetic energy of the particle, $m$ is the particle mass and $v$ is the particle velocity.
 	
 	Return: float \texttt{E\_k}
 	
@@ -140,12 +148,9 @@
 	
 	This methods updates the velocity of the particle given a force and the interval it is acting over. 
 	
-	This is achieved using $$\textbf{v}_{t+\delta t} = \textbf{v}_t + \textbf{F}\cdot\frac{\delta t}{m},$$
+	This is achieved using $$\textbf{v}_{t+\delta t} = \textbf{v}_t + \textbf{F}_t\cdot\frac{\delta t}{m},$$
 	
-	with $\textbf{v}_t$ representing the velocity at time $t$, $\textbf{F}$ representing the force applied, $\delta t$ representing the timestep and $m$ representing the particle mass. 
-	
-	Return: \texttt{void}
-	
+	with $\textbf{v}_t$ representing the velocity at time $t$, $\textbf{F}_t$ representing the force applied, $\delta t$ representing the timestep and $m$ representing the particle mass. 
 	\subsubsection{\texttt{first\_order\_posint}}
 	
 	Arguments: \texttt{(self, float timestep)}
@@ -167,9 +172,7 @@
 	$$\textbf{p}_{t+\delta t} = \textbf{p}_t + \textbf{v}_t\cdot\delta t + \delta t^2 \cdot \frac{\textbf{F}_t}{2m},$$
 	
 	where $\textbf{p}_t$ is position at time $t$, $\textbf{v}_t$ is velocity at time $t$, $\textbf{F}_t$ is force at time $t$, $m$ is the particle mass, and $\delta t$ is the timestep. 
-	
-	Return: \texttt{void}
-
+\pagebreak
 	\subsection{Static Methods}
 	
 	\subsubsection{\texttt{make\_from\_file}}
@@ -278,9 +281,9 @@
 	This method reads an arbitrary number of particles in from a file. 
 	
 	The file should be formatted as follows:
-	
+	\pagebreak
 	\begin{verbatim}
-		#lines that begin with this are comments
+		#lines that begin with # are comments
 		#particle 1 params
 		#label
 		string label
@@ -293,6 +296,7 @@
 		#particle 2 params
 		...
 		...
+		#arbitrarily many particles
 	\end{verbatim}
 	
 	The algorithm that fetches these is complex and is heavily commented in the code. 
