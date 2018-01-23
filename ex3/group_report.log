@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2016.5.3)  21 NOV 2017 15:44
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2016.5.3)  29 NOV 2017 11:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -324,20 +324,19 @@ File: n2spinsep.png Graphic file (type png)
  <use n2spinsep.png>
 Package pdftex.def Info: n2spinsep.png used on input line 68.
 (pdftex.def)             Requested size: 193.50076pt x 145.83546pt.
-
-<n2nospinlong.png, id=21, 586.8324pt x 442.2924pt>
+ [2 <./n2nospinsep.png> <./n2spinsep.png>]
+<n2nospinlong.png, id=26, 586.8324pt x 442.2924pt>
 File: n2nospinlong.png Graphic file (type png)
  <use n2nospinlong.png>
 Package pdftex.def Info: n2nospinlong.png used on input line 79.
 (pdftex.def)             Requested size: 193.50076pt x 145.83546pt.
 
-<n2spinlong.png, id=22, 586.8324pt x 442.2924pt>
+<n2spinlong.png, id=27, 586.8324pt x 442.2924pt>
 File: n2spinlong.png Graphic file (type png)
  <use n2spinlong.png>
 Package pdftex.def Info: n2spinlong.png used on input line 83.
 (pdftex.def)             Requested size: 193.50076pt x 145.83546pt.
- [2 <./n2nospinsep.png> <./n2spinsep.png>] [3 <./n2nospinlong.png> <./n2spinlon
-g.png>]
+ [3 <./n2nospinlong.png> <./n2spinlong.png>]
 <oxnospinshort.pdf, id=33, 587.19376pt x 442.65375pt>
 File: oxnospinshort.pdf Graphic file (type pdf)
  <use oxnospinshort.pdf>
@@ -417,7 +416,7 @@ Package pdftex.def Info: n2spinlong.png used on input line 145.
 Here is how much of TeX's memory you used:
  4034 strings out of 495063
  59266 string characters out of 3182202
- 123215 words of memory out of 3000000
+ 122215 words of memory out of 3000000
  7161 multiletter control sequences out of 15000+200000
  12731 words of font info for 50 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
@@ -430,7 +429,7 @@ r10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on group_report.pdf (5 pages, 703804 bytes).
+Output written on group_report.pdf (5 pages, 703737 bytes).
 PDF statistics:
  212 PDF objects out of 1000 (max. 8388607)
  58 compressed objects within 1 object stream
