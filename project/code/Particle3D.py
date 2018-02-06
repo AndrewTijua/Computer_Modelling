@@ -34,12 +34,15 @@ class Particle3D:
         """
         return str("{0} {1} {2} {3}".format(self.label, self.position[0], self.position[1], self.position[2]))
 
-    def kinetic_energy(self):
+    def kinetic_energy(self, units = 'si'):
         """
         This method calculates the kinetic energy of the particle
         :return float: The kinetic energy of the particle
         """
-        return 0.5 * self.mass * (linalg.norm(self.velocity) ** 2)
+        if units == 'si':
+            return 0.5 * self.mass * (linalg.norm(self.velocity) ** 2)
+        if units == 'au':
+            return 0.5 * self.mass * (linalg.norm(self.velocity * (1.496e11) * 86400) ** 2)
 
     def step_velocity(self, force, timestep):
         """

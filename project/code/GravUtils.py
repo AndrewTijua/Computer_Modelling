@@ -49,7 +49,7 @@ def total_energy(G, particle_list):
     """
     t_energy = 0
     for i in particle_list:
-        t_energy = t_energy + i.kinetic_energy()
+        t_energy = t_energy + i.kinetic_energy('au')
     for i in range(len(particle_list)):
         for j in range(i, len(particle_list)):
             t_energy = t_energy + grav_pot(particle_list[i], particle_list[j], G)
