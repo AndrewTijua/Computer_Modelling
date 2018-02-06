@@ -21,12 +21,31 @@ def main():
     dt = sim_params_list[1]
     numsteps = sim_params_list[2]
     time = sim_params_list[3]
+    every_n = sim_params_list[4]
 
-    tVals = [float(time)]
-    energVals = [GU.total_energy(G, particle_list)]
-    initEnergy = GU.total_energy(G, particle_list)
-    relEnergyError = [0]
+    t_vals = np.zeros(numsteps)
+    energy_vals = np.zeros(numsteps)
+    rel_energy_error = np.zeros(numsteps)
+    init_pos_arr = np.zeros((len(particle_list), 3))
+    max_arr = np.zeros(len(particle_list))
+    min_arr = np.zeros(len(particle_list))
+    wrt_arr = np.zeros(len(particle_list), dtype=np.int_)
+    period_arr = np.zeros(len(particle_list))
+    orbit_complete_flags = np.full(len(particle_list), False, dtype=bool)
+
+    t_vals[0] = float(time)
+    INIT_ENERGY= GU.total_energy(G, particle_list)
+    energy_vals[0] = INIT_ENERGY
+
+    for i in range(len(init_pos_arr)):
+        init_pos_arr[i] = particle_list[i].position
+        max_arr[i] = norm(particle_list[i].position - particle_list[wrt_arr[i]].position)
+        min_arr[i] = norm(particle_list[i].position - particle_list[wrt_arr[i]].position)
     
+
+    #apply CoM correction
+    GU.drift_correct(particle_list)
+
     #create initial forces
     for i in particle_list:
         i.prev_force = np.array([0,0,0])
@@ -36,10 +55,13 @@ def main():
 
     for i in range(numsteps):
         
-        GU.step_time(particle_list, G, dt, out_file, i+1)
+        GU.step_time(particle_list, G, dt, out_file, i, every_n)
         time = time + dt
-        
-        tVals.append(time)
+        if i > 0:
+            t_vals[i] = time
+            energy_vals[i] = GU.total_energy(G, particle_list)
+            rel_energy_error[i] = (energy_vals[i] - INIT_ENERGY) / INIT_ENERGY
+
     out_file.close()
 
 

@@ -1,9 +1,9 @@
 #G
-6.67408e-11
+1.488e-34
 #dt
-21600
+1
 #numsteps
-10000
+100000
 #init_time
 0
 #output every nth

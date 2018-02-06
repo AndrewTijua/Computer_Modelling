@@ -1,0 +1,16 @@
+#Particle 1 params
+erf
+6e24
+0, 152e9, 0
+29.29e3, 0, 0800001066
+#Particle 2 params
+son
+1988500e24
+0, 0, 0
+0, 0, 0800001066
+#Particle 3 params
+buttcoin
+0.07e24
+0, 1.524055e11, 0
+30.26e3, 0, 0800001066
+
