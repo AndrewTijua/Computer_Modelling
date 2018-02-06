@@ -9,9 +9,9 @@ import GravUtils as GU #very little in it, all named explicitly
 
 
 def main():
-    if len(sys.argv) != 3:
+    if len(sys.argv) != 4:
         raise ValueError("Incorrect number of parameters!\n usage: {0} <particle_file> <param_file> <output_file>".format(sys.argv[0]))
-    particles_list = GU.get_particles(sys.argv[1])
+    particle_list = GU.get_particles(sys.argv[1])
     sim_params_list = GU.get_params(sys.argv[2])
     
     out_file_name = str(sys.argv[3])
@@ -23,27 +23,24 @@ def main():
     time = sim_params_list[3]
 
     tVals = [float(time)]
-    energVals = [total_energy(G, particle_list)]
-    initEnergy = total_energy(G, particle_list)
+    energVals = [GU.total_energy(G, particle_list)]
+    initEnergy = GU.total_energy(G, particle_list)
     relEnergyError = [0]
     
     #create initial forces
-    for i in particles_list:
+    for i in particle_list:
         i.prev_force = np.array([0,0,0])
-        for j in particles_list:
+        for j in particle_list:
             if i != j:
-                i.prev_force = i.prev_force + GU.grav_force(i, j, D_e, r_e, alpha)
+                i.prev_force = i.prev_force + GU.grav_force(i, j, G)
 
-    for i in range(numstep):
+    for i in range(numsteps):
         
-        step_time(particles_list, G, dt, out_file, numstep + 1)
+        GU.step_time(particle_list, G, dt, out_file, i+1)
         time = time + dt
         
         tVals.append(time)
     out_file.close()
 
-
-    #1 in time is 10.18 fs or 1.018x10^-14s
-    tVals = [timescale*t for t in tVals]
 
 if __name__ == "__main__": main()

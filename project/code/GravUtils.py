@@ -21,9 +21,9 @@ def grav_force(p1, p2, G):
     #Split expression for force into smaller parts for easier digestion
     force_part_one = G * p1.mass * p2.mass
     force_part_two = norm(sep) ** 3
-    return (force_part_one / force_part_two) * (sep)
+    return -1*(force_part_one / force_part_two) * (sep)
 
-def grav_pot(r1, r2, G):
+def grav_pot(p1, p2, G):
     """
     Expression for energy potential of two particles due to gravity
     Inputs:
@@ -35,7 +35,7 @@ def grav_pot(r1, r2, G):
     G = float(G)
     if p1 == p2:
         return 0
-    sep = Particle3D.separation(r1, r2)
+    sep = Particle3D.separation(p1, p2)
     energy = -1 * G * p1.mass * p2.mass / norm(sep)
     return energy
 
@@ -75,11 +75,12 @@ def get_particles(particle_file):
     input: str param_file: file containing appropriately formatted particles
     return: list of particles
     """
-    in_file = str(param_file)
+    in_file = str(particle_file)
     read_file = open(in_file, 'r')
     in_file_contents = read_file.read()
     file_list = in_file_contents.split('\n')
     non_comments = []
+    particles_list = []
     for i in file_list:
         if i.startswith('#') == False and i != '': #filters out comment lines in file
             non_comments.append(i)
@@ -147,7 +148,7 @@ def step_time(particles_list, G, dt, out_file_handle, current_step):
         new_force = np.array([0,0,0])
         for j in particles_list:
             if i != j:
-                new_force = new_force + grav_force(i, j, D_e, r_e, alpha)
+                new_force = new_force + grav_force(i, j, G)
         i.current_force = new_force
         i.step_velocity(0.5*(new_force + i.prev_force), dt)
         i.prev_force = new_force
@@ -156,3 +157,4 @@ def step_time(particles_list, G, dt, out_file_handle, current_step):
     out_file_handle.write("{0}\nPoint = {1}".format(len(particles_list), current_step))
     for i in particles_list:
         out_file_handle.write("\n{0}".format(i))
+    out_file_handle.write("\n")
