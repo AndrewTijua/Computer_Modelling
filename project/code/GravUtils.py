@@ -81,12 +81,14 @@ def get_particles(particle_file):
     file_list = in_file_contents.split('\n')
     non_comments = []
     particles_list = []
+    wrt_arr = []
+    tol_arr = []
     for i in file_list:
         if i.startswith('#') == False and i != '': #filters out comment lines in file
             non_comments.append(i)
-    for i in range((len(non_comments)) // 4): #4 because each particle is specified by four lines
-        start = 4*(i) 
-        end = 4*(i+1)
+    for i in range((len(non_comments)) // 6): #6 because each particle is specified by 6 lines
+        start = 6*(i) 
+        end = 6*(i+1)
         temp_l = non_comments[start:end]
         p_lab = str(temp_l[0])
         p_mass = float(temp_l[1])
@@ -100,8 +102,10 @@ def get_particles(particle_file):
         p_vel = np.array(p_vel)
         particle = Particle3D(p_lab, p_mass, p_pos, p_vel)
         particles_list.append(particle)
+        wrt_arr.append(int(temp_l[4]))
+        tol_arr.append(float(temp_l[5]))
     read_file.close()
-    return particles_list
+    return (particles_list, wrt_arr, tol_arr)
 
 
 def get_params(param_file):
@@ -134,7 +138,7 @@ def energy_error_step(current_energy, init_energy):
     """
     return (current_energy-init_energy)/init_energy
 
-def step_time(particle_list, G, dt, out_file_handle, current_step, every_n = 1):
+def step_time(particle_list, G, dt, out_file_handle, current_step, every_n = 1, energy_file_handle = None, INIT_ENERGY = 1):
     """
     We step time using the verlet
     Inputs:
@@ -154,6 +158,9 @@ def step_time(particle_list, G, dt, out_file_handle, current_step, every_n = 1):
         i.step_velocity(0.5*(new_force + i.prev_force), dt)
         i.prev_force = new_force
 
+    if energy_file_handle != None:
+        energy_file_handle.write("{0:.4g}, {1:.4g}\n".format(total_energy(G, particle_list), (total_energy(G, particle_list) - INIT_ENERGY)/INIT_ENERGY))
+
     if current_step % every_n == 0:
         current_step = (current_step // every_n) + 1
         out_file_handle.write("{0}\nPoint = {1}".format(len(particle_list), current_step))
@@ -161,7 +168,7 @@ def step_time(particle_list, G, dt, out_file_handle, current_step, every_n = 1):
             out_file_handle.write("\n{0}".format(i))
         out_file_handle.write("\n")
 
-def check_observables(particle_list, max_arr, min_arr, init_pos_arr, wrt_arr, time, orbit_complete_flag, tolerance_arr, period_arr):
+def check_observables(particle_list, max_arr, min_arr, init_pos_arr, wrt_arr, time, orbit_complete_flags, tolerance_arr, period_arr):
     #apoapsis/periapsis
     for i in range(len(particle_list)):
         sep = Particle3D.separation(particle_list[i], particle_list[wrt_arr[i]])
@@ -172,9 +179,9 @@ def check_observables(particle_list, max_arr, min_arr, init_pos_arr, wrt_arr, ti
             
     #period
     for i in range(len(particle_list)):
-        if not orbit_complete_flag[i]:
+        if not orbit_complete_flags[i]:
             if norm((particle_list[i].position - particle_list[wrt_arr[i]].position) - (init_pos_arr[i] - init_pos_arr[wrt_arr[i]])) < tolerance_arr[i]:
-                orbit_complete_flag[i] = True
+                orbit_complete_flags[i] = True
                 period_arr[i] = time
 
     return (max_arr, min_arr, orbit_complete_flags, period_arr)
