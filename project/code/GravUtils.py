@@ -86,9 +86,9 @@ def get_particles(particle_file):
     for i in file_list:
         if i.startswith('#') == False and i != '': #filters out comment lines in file
             non_comments.append(i)
-    for i in range((len(non_comments)) // 6): #6 because each particle is specified by 6 lines
-        start = 6*(i) 
-        end = 6*(i+1)
+    for i in range((len(non_comments)) // 5): #5 because each particle is specified by 5 lines
+        start = 5*(i) 
+        end = 5*(i+1)
         temp_l = non_comments[start:end]
         p_lab = str(temp_l[0])
         p_mass = float(temp_l[1])
@@ -103,9 +103,8 @@ def get_particles(particle_file):
         particle = Particle3D(p_lab, p_mass, p_pos, p_vel)
         particles_list.append(particle)
         wrt_arr.append(int(temp_l[4]))
-        tol_arr.append(float(temp_l[5]))
     read_file.close()
-    return (particles_list, wrt_arr, tol_arr)
+    return (particles_list, wrt_arr)
 
 
 def get_params(param_file):
@@ -168,7 +167,20 @@ def step_time(particle_list, G, dt, out_file_handle, current_step, every_n = 1, 
             out_file_handle.write("\n{0}".format(i))
         out_file_handle.write("\n")
 
-def check_observables(particle_list, max_arr, min_arr, init_pos_arr, wrt_arr, time, orbit_complete_flags, tolerance_arr, period_arr):
+def check_observables(particle_list, max_arr, min_arr, wrt_arr, time, orbit_complete_flags, period_arr):
+    """
+    Computes the observables for the planets
+    Inputs:
+    list particle_list: list of particles
+    array max_arr: array of current maximum orbit disances (float)
+    array min_arr: array of current maximum orbit disances (float)
+    wrt_arr: array of integers corresponding to the index of the particle that the particle of the index of the element is orbiting
+    time: current time in simulation (float)
+    orbit_complete_flags: boolean array that is true when the particle with that index has traversed 2pi radians
+    period_arr: array containing the period of the particle with that index
+    Return: 4 tuple containing adjusted max_arr, min_arr, orbit_complete_flags, period_arr
+    """
+
     #apoapsis/periapsis
     for i in range(len(particle_list)):
         sep = Particle3D.separation(particle_list[i], particle_list[wrt_arr[i]])
@@ -180,8 +192,37 @@ def check_observables(particle_list, max_arr, min_arr, init_pos_arr, wrt_arr, ti
     #period
     for i in range(len(particle_list)):
         if not orbit_complete_flags[i]:
-            if norm((particle_list[i].position - particle_list[wrt_arr[i]].position) - (init_pos_arr[i] - init_pos_arr[wrt_arr[i]])) < tolerance_arr[i]:
+            if orbit_complete(particle_list[i], particle_list[wrt_arr[i]]):
                 orbit_complete_flags[i] = True
                 period_arr[i] = time
 
     return (max_arr, min_arr, orbit_complete_flags, period_arr)
+
+def angle_between(v1, v2):
+    """
+    returns the smallest angle between two vectors (<= pi)
+    Inputs: v1, v2 3d numpy vectors
+    Returns: float angle 0<=angle<=pi
+    """
+    angle = np.arccos(np.dot(v1,v2)/(norm(v1)*norm(v2)))
+    if angle > np.pi:
+        angle = 2*np.pi - angle
+    return angle
+    
+
+def orbit_complete(particle, wrt_particle):
+    """
+    This functions steps the angle of the particle forwards and checks if it has complete an orbit
+    Input: 
+    particle: a particle 3d object
+    wrt_particle: a particle 3d object that the orbit of particle is taken with respect to
+    """
+    if norm(particle.position - wrt_particle.position) != 0:
+        particle.angle_traversed = particle.angle_traversed + angle_between(particle.position-wrt_particle.position, particle.prev_pos-wrt_particle.prev_pos)
+    else: 
+        particle.angle_traversed = particle.angle_traversed + angle_between(particle.position, particle.prev_pos)
+
+    if particle.angle_traversed >= 2*np.pi:
+        return True
+    else:
+        return False

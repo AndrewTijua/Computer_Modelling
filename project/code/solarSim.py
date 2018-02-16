@@ -1,16 +1,19 @@
 import sys
-#from matplotlib import pyplot as plot
 from Particle3D import Particle3D
 import math
 from numpy.linalg import norm
 import numpy as np
-import GravUtils as GU #very little in it, all named explicitly
+import GravUtils as GU 
 
 
 
 def main():
     if len(sys.argv) != 4:
         raise ValueError("Incorrect number of parameters!\n usage: {0} <particle_file> <param_file> <output_file>".format(sys.argv[0]))
+
+    """
+    Initialise variables
+    """
     particle_list = GU.get_particles(sys.argv[1])[0]
     sim_params_list = GU.get_params(sys.argv[2])
     
@@ -26,7 +29,6 @@ def main():
     every_n = sim_params_list[4]
 
     wrt_arr = GU.get_particles(sys.argv[1])[1]
-    tol_arr = GU.get_particles(sys.argv[1])[2]
 
     t_vals = np.zeros(numsteps)
     energy_vals = np.zeros(numsteps)
@@ -65,7 +67,7 @@ def main():
             t_vals[i] = time
             energy_vals[i] = GU.total_energy(G, particle_list)
             rel_energy_error[i] = (energy_vals[i] - INIT_ENERGY) / INIT_ENERGY
-        GU.check_observables(particle_list, max_arr, min_arr, init_pos_arr, wrt_arr, time, orbit_complete_flags, tol_arr, period_arr)
+        GU.check_observables(particle_list, max_arr, min_arr, wrt_arr, time, orbit_complete_flags, period_arr)
     out_file.close()
 
     for i in range(len(particle_list)):

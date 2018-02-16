@@ -7,7 +7,7 @@ class Particle3D:
     This class is set up to allow easy manipulation of a point particle in three dimensions
     """
 
-    def __init__(self, label, mass, position, velocity, prev_force=[0,0,0], current_force=[0,0,0]):
+    def __init__(self, label, mass, position, velocity, prev_force=[0,0,0], current_force=[0,0,0], prev_pos=[0,0,0], angle_traversed = 0):
         """
         This method creates the particle from input
         :string label: The label wanted for the particle
@@ -21,9 +21,11 @@ class Particle3D:
             self.label = str(label)
             self.mass = float(mass)
             self.position = array(position, dtype=np.float64)
+            self.prev_pos = array(prev_pos, dtype=np.float64)
             self.velocity = array(velocity, dtype=np.float64)
             self.prev_force = array(prev_force, dtype=np.float64)
             self.current_force = array(current_force, dtype=np.float64)
+            self.angle_traversed = float(angle_traversed)
         except:
              raise ValueError('Something went wrong initialising a Particle3D')
     
@@ -57,6 +59,7 @@ class Particle3D:
         This method performs first order time integration on the particles position
         :float timestep: The time interval to step over
         """
+        self.prev_pos = self.position
         self.position = self.position + (self.velocity * timestep)
 
     def second_order_posint(self, force, timestep):
@@ -65,6 +68,7 @@ class Particle3D:
         :numpy array force: The force applied to the particle
         :float timestep: The time interval to step over
         """
+        self.prev_pos = self.position
         self.position = self.position + (self.velocity * timestep) + ((timestep ** 2) * (force) * (1/(2 * self.mass)))
 
     @staticmethod
