@@ -1,0 +1,140 @@
+\documentclass[a4paper, 11pt, british, left=1in, right=1in, top=0.3in, bottom=1in]{article}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath}
+\usepackage{titling}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{titlesec}
+\usepackage{isodate}
+\usepackage{fancyhdr}
+\usepackage{ragged2e}
+\usepackage{geometry}
+\geometry{a4paper, left=1in, right=1in}
+\usepackage{lipsum}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{relsize}
+\usepackage{float}
+\usepackage{svg}
+\usepackage{multicol}
+\usepackage{wrapfig}
+\usepackage{array}
+\usepackage{hyperref}
+\usepackage{pbox}
+\usepackage{colortbl}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+\setlength\extrarowheight{6pt}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand*\footnoterule{}
+\usepackage[official]{eurosym}
+\usepackage{framed}
+\author{Benjamin Cox}
+\title{Project Report: Project A}
+\date{Due 2018-03-29}
+
+\titleformat{\section}
+{\color{MidnightBlue}\normalfont\Large\bfseries}
+{\color{MidnightBlue}\thesection}{1em}{}
+
+\titleformat{\subsection}
+{\color{NavyBlue}\normalfont\large\bfseries}
+{\color{NavyBlue}\thesubsection}{0.75em}{}
+
+\titleformat{\subsubsection}
+{\color{RoyalBlue}\normalfont}
+{\color{RoyalBlue}\thesubsubsection}{0.6em}{}
+
+
+\isodate
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{Project Report}
+\cfoot{\thepage}
+\rfoot{\theauthor}
+
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1.5ex}
+%\thispagestyle{empty}
+
+\newcommand{\vun}[1]{\underline{\textbf{#1}}}
+\newcommand{\vN}{\vun{N}}
+\newcommand{\vT}{\vun{T}}
+\newcommand{\vB}{\vun{B}}
+\newcommand{\vr}{\vun{r}}
+\newcommand{\Eval}[3]{\left.#1\right\rvert_{#2}^{#3}}
+
+
+
+\begin{document}
+	{\maketitle}
+	
+	\tableofcontents
+	
+	\clearpage
+	
+	\par\vspace*{\fill}
+	
+	\section{Abstract}
+	In this report we will discuss the design and implementation of an N-body simulation program. We will discuss details of the code and where choices were made, as well as justifications for those choices. 
+	
+	We will then dissect the results of running the simulation on the solar system for an extended time period, as well as comparing my results to those of another group. 
+	
+	We will conclude with an analysis of what went right and what went so horribly wrong in the execution and implementation of the simulator. 
+	
+	\pagebreak
+	
+	
+	\section{Overview}
+	\subsection{Objectives of Project}
+	I have attempted the 'Astronomical N-Body Simulation` project, in which the Solar System is simulated according to Newtons Laws of Gravitation. 
+	
+	The objective of the project was to simulate the solar system by reading in the initial states of the celestial bodies and simulating their interactions with each other, consequently calculating their positions in the future. We were to create a file containing observables (apoapsis, periapsis, and period) and compare these to known values to determine the accuracy of the simulation. 
+	
+	\subsection{Requisites For A Simulation}
+	To create the N-body simulator I first needed to implement functions that could handle arbitrarily many particles. These car contained within the \texttt{GravUtils.py} file. Arguably the most important function in the file is \texttt{step\_time}, because it contains the entire algorithm for the main body of the simulation. However it is neatened up by doing much of the calculations via calls to other functions. 
+	
+	To calculate all of the forces involved in an N-body system I used a nested loop. The first loop selected a body for which the forces were to be calculated and the second loop calculated the force of all other bodies upon that body. This loop was responsible for the majority of the runtime due to it having complexity $n^2$. 
+	
+	Another coding choice was to contain the previous force applied on the particle within the particle class itself. This saved a lot of trouble that could have arisen with the Velocity Verlet algorithm.
+	
+	Some deviations occurred from the design document. The most notable of those changes was that in the end ellipse fitting was not used for the orbits. This was due to time constraints.
+	
+	To get around cumulative errors that occur when using very large numbers we rebased our calculations from metres and second to astronomical units and days. 
+	\section{Results and Discussion}
+	
+	
+	\appendix
+	\clearpage
+	\section{Observables Data}
+	
+	\begin{figure}[H]
+		
+	{\footnotesize
+		Period is measured in days, apoapsis and periapsis in AU. \\
+		
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline Body & Calc. Period& Period (days) & Calc. Apoapsis& Apoapsis& Calc. Periapsis & Periapsis & Calc. Ecc & Ecc\\ 
+		\hline Sol & - & - & - & - & - & - &- &-\\ 
+		\hline Mercury & 89 & 88 & 0.468 & 0.467 & 0.310 & 0.308 & 0.203 & 0.206\\ 
+		\hline Venus & 225 & 225 & 0.729 & 0.729 & 0.719 & 0.718 & 0.007& 0.007\\ 
+		\hline Earth & 366 & 365 & 1.017 & 1.017 & 0.983 & 0.983 & 0.017 & 0.017 \\ 
+		\hline Moon & 31 & 28 & 3.014e-3 & 2.710e-3 & 2.466e-3 & 2.424e-3 & 0.100 & 0.056\\ 
+		\hline Mars & 687 & 687 & 1.667 & 1.666 & 1.381 & 1.381 & 0.094& 0.094\\ 
+		\hline Jupiter & 4333 & 4333 & 5.459 & 5.459 & 4.946 & 4.950 & 0.049 & 0.049\\ 
+		\hline Saturn & 10749 & 10759 & 10.078 & 10.124 & 9.007 & 9.041& 0.056 & 0.057\\
+		\hline Uranus & 30672 & 30689 & 20.115 & 20.110 & 18.213 & 18.330 & 0.050 & 0.046\\
+		\hline Neptune & 60198 & 60182 & 30.345 & 30.330 & 29.810 & 29.810 & 0.009 & 0.009\\
+		\hline Pluto & 91395 & 90560 & 49.775 & 49.305 & 29.658 & 29.681 & 0.253 & 0.248 \\
+		\hline Halley & 27322 & 27491 & 35.143 & 35.082 & 0.590 & 0.586& 0.967 & 0.967\\
+		\hline 
+	\end{tabular} 
+	\label{tab:obsv}
+}
+\end{figure}
+
+\end{document}
